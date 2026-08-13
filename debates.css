@@ -1,0 +1,18 @@
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#eef2ff;font-family:system-ui,-apple-system,"Noto Sans Telugu",sans-serif}
+.top{padding:22px 18px;background:linear-gradient(135deg,#101b4b,#243b88);position:sticky;top:0;z-index:5}
+.brand{font-size:24px;font-weight:800}.sub{opacity:.8;margin-top:5px;font-size:14px}
+main{max-width:900px;margin:auto;padding:18px 14px 90px}
+.titleRow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-size:25px;margin:8px 0 16px}.back{background:#202a48;color:white;border:1px solid #3c4b76;border-radius:12px;padding:10px 14px}
+.search{width:100%;padding:15px;border-radius:14px;border:1px solid #334267;background:#111a30;color:white;font-size:16px;margin-bottom:16px}
+.folder{background:#121b31;border:1px solid #2d3b60;border-radius:18px;margin:14px 0;padding:16px}
+.folder h2{margin:0 0 5px;font-size:19px}.count{opacity:.7;font-size:13px;margin-bottom:12px}
+.card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid #263452}
+.card:first-of-type{border-top:0}.name{font-weight:700}.type{font-size:12px;opacity:.65;margin-top:3px}
+.yt{display:inline-block;white-space:nowrap;text-decoration:none;background:#e62117;color:white;padding:10px 13px;border-radius:10px;font-weight:800;font-size:13px}
+.play{display:inline-block;white-space:nowrap;text-decoration:none;background:#263a72;color:white;padding:10px 13px;border-radius:10px;font-weight:800;font-size:13px}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:#0d1426;border-top:1px solid #2b3856;display:flex;justify-content:center;gap:10px;padding:10px;z-index:10}
+.bottom a{color:#dbe5ff;text-decoration:none;padding:10px 18px;border-radius:10px}.bottom .active{background:#263a72}
+.empty{padding:20px;text-align:center;opacity:.7}
+@media(max-width:560px){.card{align-items:flex-start}.yt,.play{font-size:12px;padding:9px}.name{font-size:14px}h1{font-size:22px}}
