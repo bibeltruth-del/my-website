@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="te">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<meta name="description" content="Bible Truth — బైబిల్ విషయాలు, విరుద్ధతలు, వచన సూచనలు మరియు వివరణలు.">
+<title>Bible Truth</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">✝</div>
+    <div><h1>Bible Truth</h1><p>బైబిల్ అంశాల పరిశీలన</p></div>
+  </div>
+  <button id="themeBtn" class="icon-btn" aria-label="Theme">☾</button>
+</header>
+<main>
+  <section id="home" class="hero">
+    <div>
+      <span class="eyebrow">BIBLE TRUTH</span>
+      <h2>బైబిల్ విషయాలను అంశాల వారీగా పరిశీలించండి</h2>
+      <p>మీరు అందించిన 13 categories మరియు వాటిలోని matter మొత్తం websiteలో searchable, readable formatలో ఉంచబడింది.</p>
+      <div class="stats"><span id="catCount">13 Categories</span><span id="itemCount">959 Items</span></div>
+    </div>
+  </section>
+
+  <section class="toolbar">
+    <input id="search" type="search" placeholder="🔎 category, contradiction, verse, word search చేయండి..." autocomplete="off">
+    <button id="homeBtn" class="soft-btn">Home</button>
+  </section>
+
+  <section id="categories" class="grid"></section>
+  <section id="results" class="results hidden"></section>
+
+  <section id="detail" class="detail hidden">
+    <button id="backBtn" class="back">← వెనక్కి</button>
+    <div id="detailContent"></div>
+  </section>
+</main>
+<footer>© Bible Truth • GitHub Pages • Static website</footer>
+<script src="app.js"></script>
+</body>
+</html>
