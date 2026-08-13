@@ -27,7 +27,13 @@ function renderItem(){
  const title=parts.shift()||`${c.name} — ${it.number}`;
  const mainPoint=makeMainPoint(title,it.text,c);
  let html=`<div class="detail-head"><div class="category-label">${esc(c.name)} • ${it.number}/${c.items.length}</div><div class="main-point"><b>🔴 MAIN POINT</b><div class="question">${esc(mainPoint)}</div></div></div>`;
- html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2>${formatText(parts.join('\n'))}</article>`;
+ if(it.url){
+   const isPlaylist=/youtube\.com\/playlist/i.test(it.url);
+   const label=isPlaylist?'▶ OPEN PLAYLIST':'▶ WATCH ON YOUTUBE';
+   html+=`<article class="item youtube-item"><h2 class="item-title">${esc(title)}</h2><a class="youtube-btn" href="${esc(it.url)}" target="_blank" rel="noopener noreferrer">${label}</a></article>`;
+ }else{
+   html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2>${formatText(parts.join('\n'))}</article>`;
+ }
  html+=`<div class="navs"><button class="soft-btn" onclick="prevItem()" ${currentItem===0?'disabled':''}>← Previous</button><button class="soft-btn" onclick="nextItem()" ${currentItem===c.items.length-1?'disabled':''}>Next →</button></div>`;
  $('#detailContent').innerHTML=html;show('detail');hide('categories');hide('results');window.scrollTo({top:0,behavior:'smooth'});
 }
