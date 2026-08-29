@@ -1,33 +1,104 @@
 let DATA=null,currentCat=0,currentItem=0,view='home';const $=s=>document.querySelector(s);
+
 const bookMap={
-'ఆదికాండము':'genesis','నిర్గమకాండము':'exodus','లేవీయకాండము':'leviticus','సంఖ్యాకాండము':'numbers','ద్వితీయోపదేశకాండము':'deuteronomy','యెహోషువ':'joshua','న్యాయాధిపతులు':'judges','రూతు':'ruth','1 సమూయేలు':'1-samuel','2 సమూయేలు':'2-samuel','1 రాజులు':'1-kings','2 రాజులు':'2-kings','1 దినవృత్తాంతములు':'1-chronicles','2 దినవృత్తాంతములు':'2-chronicles','ఎజ్రా':'ezra','నెహెమ్యా':'nehemiah','ఎస్తేరు':'esther','యోబు':'job','కీర్తనలు':'psalms','సామెతలు':'proverbs','ప్రసంగి':'ecclesiastes','పరమగీతము':'song-of-solomon','యెషయా':'isaiah','యిర్మీయా':'jeremiah','విలాపవాక్యములు':'lamentations','యెహెజ్కేలు':'ezekiel','దానియేలు':'daniel','హోషేయ':'hosea','యోవేలు':'joel','ఆమోసు':'amos','ఓబద్యా':'obadiah','యోనా':'jonah','మీకా':'micah','నహూము':'nahum','హబక్కూకు':'habakkuk','జెఫన్యా':'zephaniah','హగ్గయి':'haggai','జెకర్యా':'zechariah','మలాకీ':'malachi','మత్తయి':'matthew','మార్కు':'mark','లూకా':'luke','యోహాను':'john','అపొస్తలుల కార్యములు':'acts','రోమీయులకు':'romans','1 కొరింథీయులకు':'1-corinthians','2 కొరింథీయులకు':'2-corinthians','గలతీయులకు':'galatians','ఎఫెసీయులకు':'ephesians','ఫిలిప్పీయులకు':'philippians','కొలొస్సయులకు':'colossians','1 థెస్సలొనీకయులకు':'1-thessalonians','2 థెస్సలొనీకయులకు':'2-thessalonians','1 తిమోతికి':'1-timothy','2 తిమోతికి':'2-timothy','తీతుకు':'titus','ఫిలేమోనుకు':'philemon','హెబ్రీయులకు':'hebrews','యాకోబు':'james','1 పేతురు':'1-peter','2 పేతురు':'2-peter','1 యోహాను':'1-john','2 యోహాను':'2-john','3 యోహాను':'3-john','యూదా':'jude','ప్రకటన గ్రంథము':'revelation'};
+'ఆదికాండము':'genesis','నిర్గమకాండము':'exodus','లేవీయకాండము':'leviticus','సంఖ్యాకాండము':'numbers','ద్వితీయోపదేశకాండము':'deuteronomy','యెహోషువ':'joshua','న్యాయాధిపతులు':'judges','రూతు':'ruth','1 సమూయేలు':'1-samuel','2 సమూయేలు':'2-samuel','1 రాజులు':'1-kings','2 రాజులు':'2-kings','1 దినవృత్తాంతములు':'1-chronicles','2 దినవృత్తాంతములు':'2-chronicles','ఎజ్రా':'ezra','నెహెమ్యా':'nehemiah','ఎస్తేరు':'esther','యోబు':'job','కీర్తనలు':'psalms','సామెతలు':'proverbs','ప్రసంగి':'ecclesiastes','పరమగీతము':'song-of-solomon','యెషయా':'isaiah','యిర్మీయా':'jeremiah','విలాపవాక్యములు':'lamentations','యెహెజ్కేలు':'ezekiel','దానియేలు':'daniel','హోషేయ':'hosea','యోవేలు':'joel','ఆమోసు':'amos','ఓబద్యా':'obadiah','యోనా':'jonah','మీకా':'micah','నహూము':'nahum','హబక్కూకు':'habakkuk','జెఫన్యా':'zephaniah','హగ్గయి':'haggai','జెకర్యా':'zechariah','మలాకీ':'malachi','మత్తయి':'matthew','మార్కు':'mark','లూకా':'luke','యోహాను':'john','అపొస్తలుల కార్యములు':'acts','రోమీయులకు':'romans','1 కొరింథీయులకు':'1-corinthians','2 కొరింథీయులకు':'2-corinthians','గలతీయులకు':'galatians','ఎఫెసీయులకు':'ephesians','ఫిలిప్పీయులకు':'philippians','కొలొస్సయులకు':'colossians','1 థెస్సలొనీకయులకు':'1-thessalonians','2 థెస్సలొనీకయులకు':'2-thessalonians','1 తిమోతికి':'1-timothy','2 తిమోతికి':'2-timothy','తీతుకు':'titus','ఫిలేమోనుకు':'philemon','హెబ్రీయులకు':'hebrews','యాకోబు':'james','1 పేతురు':'1-peter','2 పేతురు':'2-peter','1 యోహాను':'1-john','2 యోహాను':'2-john','3 యోహాను':'3-john','యూదా':'jude','ప్రకటన గ్రంథము':'revelation',
+
+'Genesis':'genesis','Exodus':'exodus','Leviticus':'leviticus','Numbers':'numbers','Deuteronomy':'deuteronomy','Joshua':'joshua','Judges':'judges','Ruth':'ruth','1 Samuel':'1-samuel','2 Samuel':'2-samuel','1 Kings':'1-kings','2 Kings':'2-kings','1 Chronicles':'1-chronicles','2 Chronicles':'2-chronicles','Ezra':'ezra','Nehemiah':'nehemiah','Esther':'esther','Job':'job','Psalms':'psalms','Psalm':'psalms','Proverbs':'proverbs','Ecclesiastes':'ecclesiastes','Song of Solomon':'song-of-solomon','Isaiah':'isaiah','Jeremiah':'jeremiah','Lamentations':'lamentations','Ezekiel':'ezekiel','Daniel':'daniel','Hosea':'hosea','Joel':'joel','Amos':'amos','Obadiah':'obadiah','Jonah':'jonah','Micah':'micah','Nahum':'nahum','Habakkuk':'habakkuk','Zephaniah':'zephaniah','Haggai':'haggai','Zechariah':'zechariah','Malachi':'malachi','Matthew':'matthew','Mark':'mark','Luke':'luke','John':'john','Acts':'acts','Romans':'romans','1 Corinthians':'1-corinthians','2 Corinthians':'2-corinthians','Galatians':'galatians','Ephesians':'ephesians','Philippians':'philippians','Colossians':'colossians','1 Thessalonians':'1-thessalonians','2 Thessalonians':'2-thessalonians','1 Timothy':'1-timothy','2 Timothy':'2-timothy','Titus':'titus','Philemon':'philemon','Hebrews':'hebrews','James':'james','1 Peter':'1-peter','2 Peter':'2-peter','1 John':'1-john','2 John':'2-john','3 John':'3-john','Jude':'jude','Revelation':'revelation'
+};
+
 fetch('content.json').then(r=>r.json()).then(d=>{DATA=d;init()}).catch(e=>$('#categories').innerHTML='<p>content.json load కాలేదు.</p>');
-function init(){const total=DATA.categories.reduce((a,c)=>a+c.items.length,0);$('#stats').textContent=`${DATA.categories.length} Categories • ${total} Topics`;renderCategories();$('#search').oninput=e=>search(e.target.value.trim());$('#homeBtn').onclick=home;$('#backBtn').onclick=goBack;$('#themeBtn').onclick=()=>document.body.classList.toggle('dark')}
-function setView(v){view=v;['homeView','listView','detailView','resultsView'].forEach(id=>$('#'+id).classList.toggle('hidden',id!==v+'View'));$('#backBtn').classList.toggle('hidden',v==='home')}
-function renderCategories(){setView('home');$('#categories').innerHTML=DATA.categories.map((c,i)=>`<article class="cat" onclick="openCategory(${i})"><img src="assets/category_images/category_${c.id}.jpg" onerror="this.style.display='none'"><div class="inside"><span class="num">${String(c.id).padStart(2,'0')}</span><h3>${esc(c.name)}</h3><div class="count">${c.count||c.items.length} అంశాలు</div><p>${esc(c.subtitle||'')}</p></div></article>`).join('')}
-function openCategory(i){currentCat=i;const c=DATA.categories[i];setView('list');$('#listTitle').textContent=c.name;$('#listSub').textContent=`${c.items.length} ప్రధాన అంశాలు`;$('#pointList').innerHTML=c.items.map((it,ii)=>`<article class="pointCard" onclick="openItem(${ii})"><span class="pointNo">${it.number||ii+1}.</span><span class="pointTitle">${esc(mainTitle(it.text))}</span></article>`).join('');scrollTop()}
+
+function init(){
+ const total=DATA.categories.reduce((a,c)=>a+c.items.length,0);
+ $('#stats').textContent=`${DATA.categories.length} Categories • ${total} Topics`;
+ renderCategories();
+ $('#search').oninput=e=>search(e.target.value.trim());
+ $('#homeBtn').onclick=home;
+ $('#backBtn').onclick=goBack;
+ $('#themeBtn').onclick=()=>document.body.classList.toggle('dark');
+}
+function setView(v){
+ view=v;
+ ['homeView','listView','detailView','resultsView'].forEach(id=>$('#'+id).classList.toggle('hidden',id!==v+'View'));
+ $('#backBtn').classList.toggle('hidden',v==='home');
+}
+function renderCategories(){
+ setView('home');
+ $('#categories').innerHTML=DATA.categories.map((c,i)=>`<article class="cat" onclick="openCategory(${i})"><img src="assets/category_images/category_${c.id}.jpg" onerror="this.style.display='none'"><div class="inside"><span class="num">${String(c.id).padStart(2,'0')}</span><h3>${esc(c.name)}</h3><div class="count">${c.count||c.items.length} అంశాలు</div><p>${esc(c.subtitle||'')}</p></div></article>`).join('');
+}
+function openCategory(i){
+ currentCat=i;
+ const c=DATA.categories[i];
+ setView('list');
+ $('#listTitle').textContent=c.name;
+ $('#listSub').textContent=`${c.items.length} ప్రధాన అంశాలు`;
+ $('#pointList').innerHTML=c.items.map((it,ii)=>`<article class="pointCard" onclick="openItem(${ii})"><span class="pointNo">${it.number||ii+1}.</span><span class="pointTitle">${esc(mainTitle(it.text))}</span></article>`).join('');
+ scrollTop();
+}
 function openItem(ii){currentItem=ii;renderItem()}
-function renderItem(){const c=DATA.categories[currentCat],it=c.items[currentItem],parts=it.text.split('\n'),title=parts.shift()||`${c.name} — ${it.number}`;let html=`<div class="detail-head"><div class="category-label">${esc(c.name)} • ${it.number}/${c.items.length}</div><div class="main-point"><b>🔴 MAIN POINT</b><div>${esc(mainTitle(title))}</div></div></div>`;if(it.url){html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2><a class="youtube-btn" href="${esc(it.url)}" target="_blank" rel="noopener">▶ OPEN LINK</a></article>`}else html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2>${formatText(parts.join('\n'))}</article>`;html+=`<div class="navs"><button class="soft-btn" onclick="prevItem()" ${currentItem===0?'disabled':''}>← Previous</button><button class="soft-btn" onclick="nextItem()" ${currentItem===c.items.length-1?'disabled':''}>Next →</button></div>`;$('#detailContent').innerHTML=html;setView('detail');scrollTop()}
+function renderItem(){
+ const c=DATA.categories[currentCat],it=c.items[currentItem],parts=it.text.split('\n'),title=parts.shift()||`${c.name} — ${it.number}`;
+ let html=`<div class="detail-head"><div class="category-label">${esc(c.name)} • ${it.number}/${c.items.length}</div><div class="main-point"><b>🔴 MAIN POINT</b><div>${esc(mainTitle(title))}</div></div></div>`;
+ if(it.url) html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2><a class="youtube-btn" href="${esc(it.url)}" target="_blank" rel="noopener">▶ OPEN LINK</a></article>`;
+ else html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2>${formatText(parts.join('\n'))}</article>`;
+ html+=`<div class="navs"><button class="soft-btn" onclick="prevItem()" ${currentItem===0?'disabled':''}>← Previous</button><button class="soft-btn" onclick="nextItem()" ${currentItem===c.items.length-1?'disabled':''}>Next →</button></div>`;
+ $('#detailContent').innerHTML=html;
+ setView('detail');scrollTop();
+}
 function mainTitle(t){return String(t).split('\n')[0].replace(/^\s*\d+\.\s*/,'').trim()}
+
+/* Detect Bible references in all 13 categories and render each as its own clickable box. */
+function findBibleRef(line){
+ const books=Object.keys(bookMap).sort((a,b)=>b.length-a.length).map(escapeRegExp).join('|');
+ const re=new RegExp(`(?:📖\\s*)?(?:\\d+[.)]\\s*)?((?:${books})\\s+\\d+\\s*:\\s*\\d+(?:\\s*[–-]\\s*\\d+)?)`,'i');
+ const m=line.match(re);
+ return m ? m[1].replace(/\s+/g,' ').trim() : null;
+}
 function formatText(t){
  return t.split('\n').filter(Boolean).map(raw=>{
   const line=raw.trim();
-
-  // Every Bible reference gets its own visible clickable box.
-  if(/^📖/.test(line)){
-   const ref=line.replace(/^📖\s*/,'').trim();
+  const ref=findBibleRef(line);
+  if(ref){
    const url=bibleUrl(ref);
-   return url
-    ? `<a class="bible-ref" href="${esc(url)}" target="_blank" rel="noopener noreferrer" title="Open Bible in Sajeeva Vahini"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span><span class="bible-open">›</span></a>`
-    : `<div class="verse">${esc(line)}</div>`;
+   if(url){
+    const rest=line.replace(/^.*?((?:📖\s*)?(?:\d+[.)]\s*)?)/,'');
+    const pos=rest.indexOf(ref);
+    let after=pos>=0 ? rest.slice(pos+ref.length).trim() : '';
+    after=after.replace(/^[—–\-:\s]+/,'').trim();
+    let box=`<a class="bible-ref" href="bible.html?url=${encodeURIComponent(url)}&ref=${encodeURIComponent(ref)}"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span><span class="bible-open">›</span></a>`;
+    return box + (after?`<p class="body-text">${esc(after)}</p>`:'');
+   }
   }
-
   if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;
   if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;
   return `<p class="body-text">${esc(line)}</p>`;
- }).join('')
+ }).join('');
 }
-function bibleUrl(ref){const m=ref.match(/^(.+?)\s+(\d+):(\d+)/);if(!m)return null;let book=m[1].trim(),chapter=m[2];let slug=bookMap[book];if(!slug){const k=Object.keys(bookMap).sort((a,b)=>b.length-a.length).find(x=>book.startsWith(x));if(k)slug=bookMap[k]}return slug?`https://www.sajeevavahini.com/bible/telugu-bible-bsi/${slug}/${chapter}`:null}
-function openBible(url){window.open(url,'_blank','noopener')}
-function prevItem(){if(currentItem>0){currentItem--;renderItem()}}function nextItem(){const c=DATA.categories[currentCat];if(currentItem<c.items.length-1){currentItem++;renderItem()}}
-function goBack(){if(view==='detail'){openCategory(currentCat);return}home()}function home(){renderCategories();scrollTop()}function search(q){if(!q){home();return}const hits=[];DATA.categories.forEach((c,ci)=>c.items.forEach((it,ii)=>{if((c.name+' '+c.subtitle+' '+it.text).toLowerCase().includes(q.toLowerCase()))hits.push({c,ci,ii,it})}));setView('results');$('#results').innerHTML=hits.length?hits.map(h=>`<div class="result-card" onclick="currentCat=${h.ci};openItem(${h.ii})"><span class="category-label">${esc(h.c.name)}</span><br><b>${esc(mainTitle(h.it.text))}</b></div>`).join(''):'<p>ఏ results దొరకలేదు.</p>'}function scrollTop(){window.scrollTo({top:0,behavior:'smooth'})}function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function bibleUrl(ref){
+ const clean=String(ref).replace(/\s*[–-]\s*\d+\s*$/,'').trim();
+ const m=clean.match(/^(.+?)\s+(\d+)\s*:\s*\d+/);
+ if(!m)return null;
+ let book=m[1].trim(),chapter=m[2];
+ let slug=bookMap[book];
+ if(!slug){
+  const k=Object.keys(bookMap).sort((a,b)=>b.length-a.length).find(x=>book.toLowerCase()===x.toLowerCase());
+  if(k)slug=bookMap[k];
+ }
+ return slug?`https://www.sajeevavahini.com/bible/telugu-bible-bsi/${slug}/${chapter}`:null;
+}
+function escapeRegExp(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function prevItem(){if(currentItem>0){currentItem--;renderItem()}}
+function nextItem(){const c=DATA.categories[currentCat];if(currentItem<c.items.length-1){currentItem++;renderItem()}}
+function goBack(){if(view==='detail'){openCategory(currentCat);return}home()}
+function home(){renderCategories();scrollTop()}
+function search(q){
+ if(!q){home();return}
+ const hits=[];
+ DATA.categories.forEach((c,ci)=>c.items.forEach((it,ii)=>{
+  if((c.name+' '+c.subtitle+' '+it.text).toLowerCase().includes(q.toLowerCase()))hits.push({c,ci,ii,it})
+ }));
+ setView('results');
+ $('#results').innerHTML=hits.length?hits.map(h=>`<div class="result-card" onclick="currentCat=${h.ci};openItem(${h.ii})"><span class="category-label">${esc(h.c.name)}</span><br><b>${esc(mainTitle(h.it.text))}</b></div>`).join(''):'<p>ఏ results దొరకలేదు.</p>';
+}
+function scrollTop(){window.scrollTo({top:0,behavior:'smooth'})}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
