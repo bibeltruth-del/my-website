@@ -1,12 +1,19 @@
-BIBLE TRUTH WEB APP - UPDATED
+BIBLE TRUTH - CLICKABLE BIBLE REFERENCE BOX FIX
 
-This package keeps the complete 13-category content and assets from the supplied project.
-Added behavior:
-1. Category -> main points list -> selected detail.
-2. Bible references displayed as clickable boxes.
-3. Reference click opens the matching Sajeeva Vahini Telugu Bible BSI chapter.
-4. Existing YouTube URLs remain external links.
-5. Fixed visible top navigation/back button for normal web screens.
-6. No external build tools required. Open with a local web server for fetch(content.json).
+This update makes EVERY line starting with 📖 appear as a separate visible box/card.
 
-For VS Code: install Live Server, right-click index.html -> Open with Live Server.
+Flow:
+📖 2 సమూయేలు 24:1
+        [click box]
+             ↓
+Sajeeva Vahini Telugu Bible
+             ↓
+Correct Book + Chapter
+
+INSTALL:
+1. Replace existing app.js with the included app.js.
+2. Copy ALL contents of BIBLE_REFERENCE_BOX_STYLE.css into the END of your existing style.css.
+3. Keep index.html and content.json unchanged.
+4. Upload to GitHub and commit.
+
+No category content is changed.

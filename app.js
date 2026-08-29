@@ -9,7 +9,24 @@ function openCategory(i){currentCat=i;const c=DATA.categories[i];setView('list')
 function openItem(ii){currentItem=ii;renderItem()}
 function renderItem(){const c=DATA.categories[currentCat],it=c.items[currentItem],parts=it.text.split('\n'),title=parts.shift()||`${c.name} — ${it.number}`;let html=`<div class="detail-head"><div class="category-label">${esc(c.name)} • ${it.number}/${c.items.length}</div><div class="main-point"><b>🔴 MAIN POINT</b><div>${esc(mainTitle(title))}</div></div></div>`;if(it.url){html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2><a class="youtube-btn" href="${esc(it.url)}" target="_blank" rel="noopener">▶ OPEN LINK</a></article>`}else html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2>${formatText(parts.join('\n'))}</article>`;html+=`<div class="navs"><button class="soft-btn" onclick="prevItem()" ${currentItem===0?'disabled':''}>← Previous</button><button class="soft-btn" onclick="nextItem()" ${currentItem===c.items.length-1?'disabled':''}>Next →</button></div>`;$('#detailContent').innerHTML=html;setView('detail');scrollTop()}
 function mainTitle(t){return String(t).split('\n')[0].replace(/^\s*\d+\.\s*/,'').trim()}
-function formatText(t){return t.split('\n').filter(Boolean).map(raw=>{const line=raw.trim();if(/^📖/.test(line)){const ref=line.replace(/^📖\s*/,'');const url=bibleUrl(ref);return url?`<button class="bible-ref" onclick="openBible(${JSON.stringify(url)})">📖 ${esc(ref)}</button>`:`<div class="verse">${esc(line)}</div>`}if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;return `<p class="body-text">${esc(line)}</p>`}).join('')}
+function formatText(t){
+ return t.split('\n').filter(Boolean).map(raw=>{
+  const line=raw.trim();
+
+  // Every Bible reference gets its own visible clickable box.
+  if(/^📖/.test(line)){
+   const ref=line.replace(/^📖\s*/,'').trim();
+   const url=bibleUrl(ref);
+   return url
+    ? `<a class="bible-ref" href="${esc(url)}" target="_blank" rel="noopener noreferrer" title="Open Bible in Sajeeva Vahini"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span><span class="bible-open">›</span></a>`
+    : `<div class="verse">${esc(line)}</div>`;
+  }
+
+  if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;
+  if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;
+  return `<p class="body-text">${esc(line)}</p>`;
+ }).join('')
+}
 function bibleUrl(ref){const m=ref.match(/^(.+?)\s+(\d+):(\d+)/);if(!m)return null;let book=m[1].trim(),chapter=m[2];let slug=bookMap[book];if(!slug){const k=Object.keys(bookMap).sort((a,b)=>b.length-a.length).find(x=>book.startsWith(x));if(k)slug=bookMap[k]}return slug?`https://www.sajeevavahini.com/bible/telugu-bible-bsi/${slug}/${chapter}`:null}
 function openBible(url){window.open(url,'_blank','noopener')}
 function prevItem(){if(currentItem>0){currentItem--;renderItem()}}function nextItem(){const c=DATA.categories[currentCat];if(currentItem<c.items.length-1){currentItem++;renderItem()}}
