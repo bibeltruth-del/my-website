@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html lang="te">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Channels Folder</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main class="app">
-    <section id="homeView" class="view active">
-      <div class="hero">
-        <div class="folder-card" id="openFolder" role="button" tabindex="0">
-          <div class="folder-icon">📁</div>
-          <h1>పాషండ మతాలను చీల్చి చెండాడుతున్న స్వప్న సింహాలు 🦁🔥</h1>
-          <p>20 YouTube Channels</p>
-          <button>Open Folder →</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="listView" class="view">
-      <header class="topbar">
-        <button id="backBtn" class="back-btn">← Back</button>
-        <div>
-          <h2>📁 పాషండ మతాలను చీల్చి చెండాడుతున్న స్వప్న సింహాలు</h2>
-          <span>20 YouTube Channels</span>
-        </div>
-      </header>
-      <div id="channelList" class="channel-list"></div>
-    </section>
-  </main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="te"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bible Truth</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="topbar"><button id="backBtn" class="iconBtn hidden" aria-label="Back">←</button><button id="homeBtn" class="brand">BIBLE TRUTH</button><div class="spacer"></div><button id="themeBtn" class="iconBtn" title="Theme">◐</button></header>
+<main class="wrap"><section id="homeView"><div class="hero"><h1>బైబిల్ సత్యం</h1><p id="stats"></p><input id="search" placeholder="Search categories or topics..."></div><div id="categories" class="grid"></div></section>
+<section id="listView" class="hidden"><div class="viewHead"><h2 id="listTitle"></h2><p id="listSub"></p></div><div id="pointList" class="pointList"></div></section>
+<section id="detailView" class="hidden"><div id="detailContent"></div></section>
+<section id="resultsView" class="hidden"><h2>Search Results</h2><div id="results"></div></section></main>
+<script src="app.js"></script></body></html>
