@@ -98,29 +98,63 @@ function findBibleRef(line){
  const m=line.match(re);
  return m ? m[1].replace(/\s+/g,' ').trim() : null;
 }
+/* ALL CATEGORIES 1–13:
+   Detect EVERY Bible reference anywhere in the line.
+   Keep all original Telugu/English text unchanged.
+   Render each detected reference as its own clickable Sajeeva Vahini box. */
 function formatText(t){
- return String(t||'').split('\n').filter(Boolean).map(raw=>{
-  const line=raw.trim();
-  const specialCategories=[5,7,10,11,12,13];
-  const categoryId=Number(DATA?.categories?.[currentCat]?.id);
-  const split=specialCategories.includes(categoryId) ? splitReferenceAndVerse(line) : null;
+ const lines=String(t||'').split('\n').filter(Boolean);
+ const books=Object.keys(bookMap).sort((a,b)=>b.length-a.length).map(escapeRegExp).join('|');
 
-  if(split && split.ref){
-   const url=bibleUrl(split.ref);
-   const preservePrefix = [12,13].includes(categoryId) && split.prefix;
-   let out = '';
-   if(preservePrefix) out += `<p class="body-text">${esc(split.prefix)}</p>`;
-   if(url) out += renderBibleBox(split.ref,url);
-   if(split.after){
-     if(/^“|^"/.test(split.after)) out+=`<div class="verse">${esc(split.after)}</div>`;
-     else out+=`<p class="body-text">${esc(split.after)}</p>`;
+ // Global matcher: Telugu + English book names already present in bookMap.
+ // Supports: 📖 reference, numbered reference, ranges, and references embedded in text.
+ const refRe=new RegExp(`(?:📖\\s*)?((?:${books})\\s+\\d+\\s*:\\s*\\d+(?:\\s*[–-]\\s*\\d+)?)`,'ig');
+
+ return lines.map(raw=>{
+   const line=String(raw).trim();
+   const matches=[...line.matchAll(refRe)];
+
+   // No Bible reference: preserve existing rendering exactly.
+   if(!matches.length){
+     if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;
+     if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;
+     return `<p class="body-text">${esc(line)}</p>`;
    }
-   return out;
-  }
 
-  if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;
-  if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;
-  return `<p class="body-text">${esc(line)}</p>`;
+   // Separate EVERY reference from the surrounding verse/text.
+   // This is intentionally done for all Categories 1–13.
+   let out='';
+   let cursor=0;
+
+   matches.forEach(m=>{
+     const full=m[0];
+     const ref=m[1].replace(/\s+/g,' ').trim();
+     let before=line.slice(cursor,m.index);
+
+     // If the matcher consumed the 📖 symbol, it is not part of the text chunk.
+     before=before.replace(/\s+$/,'');
+
+     if(before){
+       if(/^↔️|^⚠️/.test(before)) out+=`<div class="note">${esc(before)}</div>`;
+       else if(/^“|^"/.test(before)) out+=`<div class="verse">${esc(before)}</div>`;
+       else out+=`<p class="body-text">${esc(before)}</p>`;
+     }
+
+     const url=bibleUrl(ref);
+     if(url) out+=renderBibleBox(ref,url);
+     else out+=`<div class="bible-ref"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span></div>`;
+
+     cursor=m.index+full.length;
+   });
+
+   const after=line.slice(cursor).replace(/^\s*[—–-]\s*/,'').trim();
+   if(after){
+     if(/^↔️|^⚠️/.test(after)) out+=`<div class="note">${esc(after)}</div>`;
+     else if(/^“|^"/.test(after)) out+=`<div class="verse">${esc(after)}</div>`;
+     else out+=`<p class="body-text">${esc(after)}</p>`;
+   }
+
+   return out;
  }).join('');
 }
 function bibleUrl(ref){

@@ -1,0 +1,30 @@
+CATEGORY 13 — VERIFIED REFERENCE FIX
+
+Total explicit Bible references found in actual Category 13 content: 21
+Each reference line beginning with 📖 is rendered as its own clickable box.
+Each box opens the mapped Sajeeva Vahini Telugu Bible chapter.
+No Telugu text/content was changed.
+No other category was newly changed in this update.
+
+Verified references:
+01. లూకా 14:26 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/luke/14
+02. మత్తయి 10:37 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/matthew/10
+03. లూకా 9:59-60 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/luke/9
+04. మత్తయి 8:21-22 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/matthew/8
+05. మార్కు 9:23 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/mark/9
+06. మత్తయి 17:20 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/matthew/17
+07. మార్కు 11:23 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/mark/11
+08. మార్కు 11:24 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/mark/11
+09. మత్తయి 21:22 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/matthew/21
+10. లూకా 17:6 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/luke/17
+11. మత్తయి 21:21 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/matthew/21
+12. మార్కు 9:23 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/mark/9
+13. మత్తయి 17:20 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/matthew/17
+14. మత్తయి 21:21 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/matthew/21
+15. మార్కు 11:23 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/mark/11
+16. లూకా 17:6 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/luke/17
+17. మత్తయి 21:22 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/matthew/21
+18. యోహాను 14:12 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/john/14
+19. ద్వితీయోపదేశకాండము 13:1-5 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/deuteronomy/13
+20. ద్వితీయోపదేశకాండము 13:6-10 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/deuteronomy/13
+21. ద్వితీయోపదేశకాండము 13:12-15 -> https://www.sajeevavahini.com/bible/telugu-bible-bsi/deuteronomy/13

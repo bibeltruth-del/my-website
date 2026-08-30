@@ -1,0 +1,25 @@
+ALL 13 CATEGORIES — BIBLE REFERENCE CLICKABLE FIX
+
+Correction applied: Categories 1 through 13.
+Every detected Bible reference is rendered separately as a clickable box.
+Click target: corresponding Sajeeva Vahini Telugu Bible chapter.
+Original content text was not edited.
+
+Category 1: 1276 detected Bible reference(s)
+Category 2: 20 detected Bible reference(s)
+Category 3: 43 detected Bible reference(s)
+Category 4: 22 detected Bible reference(s)
+Category 5: 50 detected Bible reference(s)
+Category 6: 84 detected Bible reference(s)
+Category 7: 40 detected Bible reference(s)
+Category 8: 125 detected Bible reference(s)
+Category 9: 0 detected Bible reference(s)
+Category 10: 42 detected Bible reference(s)
+Category 11: 15 detected Bible reference(s)
+Category 12: 31 detected Bible reference(s)
+Category 13: 21 detected Bible reference(s)
+
+Total detected references across all categories: 1769
+Unmapped references: 0
+
+Note: Category 9 contains no detectable Bible chapter:verse references in the supplied content.
