@@ -23,3 +23,30 @@ a.bible-ref:active{transform:scale(.99)}
 .bible-ref-text{flex:1}
 .bible-open{font-size:28px;line-height:1;font-weight:400}
 .dark a.bible-ref{background:#2b2616;color:#ffe9a6;border-color:#8f7420}
+
+
+/* Categories 5,7,10,11 — clickable Bible reference box */
+a.bible-ref{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  box-sizing:border-box;
+  margin:12px 0;
+  padding:14px 16px;
+  border:1px solid #c9a227;
+  border-radius:12px;
+  background:#fffdf2;
+  color:#5b4300;
+  text-decoration:none;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  -webkit-tap-highlight-color:transparent;
+}
+a.bible-ref:hover{transform:translateY(-1px)}
+a.bible-ref:active{transform:scale(.99)}
+.bible-icon{font-size:22px;line-height:1}
+.bible-ref-text{flex:1}
+.bible-open{font-size:28px;line-height:1;font-weight:400}
+.dark a.bible-ref{background:#2b2616;color:#ffe9a6;border-color:#8f7420}

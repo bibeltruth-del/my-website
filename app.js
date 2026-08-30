@@ -57,18 +57,20 @@ function findBibleRef(line){
 function formatText(t){
  return t.split('\n').filter(Boolean).map(raw=>{
   const line=raw.trim();
+
+  // Only Categories 5, 7, 10 and 11: Bible reference on its own line -> clickable box.
+  const specialCategories=[5,7,10,11];
+  const categoryId=Number(DATA?.categories?.[currentCat]?.id);
   const ref=findBibleRef(line);
 
-  // Categories 5, 7, 10 and 11: every Bible reference gets a visible clickable box.
-  if(ref){
+  if(ref && specialCategories.includes(categoryId)){
    const url=bibleUrl(ref);
    if(url){
-    const after=line.replace(/^📖\s*/,'').replace(ref,'').replace(/^[\s—–\-:]+/,'').trim();
-    return `<a class="bible-ref" href="${esc(url)}" title="Open in Sajeeva Vahini"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span><span class="bible-open">›</span></a>`+
-           (after?`<p class="body-text">${esc(after)}</p>`:'');
+    return `<a class="bible-ref" href="${esc(url)}" title="Open in Sajeeva Vahini"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span><span class="bible-open">›</span></a>`;
    }
   }
 
+  // Preserve normal rendering everywhere else.
   if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;
   if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;
   return `<p class="body-text">${esc(line)}</p>`;
