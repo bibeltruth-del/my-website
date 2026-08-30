@@ -37,13 +37,57 @@ function openCategory(i){
 }
 function openItem(ii){currentItem=ii;renderItem()}
 function renderItem(){
- const c=DATA.categories[currentCat],it=c.items[currentItem],parts=it.text.split('\n'),title=parts.shift()||`${c.name} — ${it.number}`;
- let html=`<div class="detail-head"><div class="category-label">${esc(c.name)} • ${it.number}/${c.items.length}</div><div class="main-point"><b>🔴 MAIN POINT</b><div>${esc(mainTitle(title))}</div></div></div>`;
- if(it.url) html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2><a class="youtube-btn" href="${esc(it.url)}" target="_blank" rel="noopener">▶ OPEN LINK</a></article>`;
- else html+=`<article class="item"><h2 class="item-title">${esc(title)}</h2>${formatText(parts.join('\n'))}</article>`;
+ const c=DATA.categories[currentCat],it=c.items[currentItem];
+ const parts=String(it.text||'').split('\n');
+ const firstLine=parts.shift()||`${c.name} — ${it.number}`;
+ const specialCategories=[5,7,10,11];
+ const categoryId=Number(c.id);
+ const split=specialCategories.includes(categoryId) ? splitReferenceAndVerse(firstLine) : null;
+
+ let displayTitle=mainTitle(firstLine);
+ let bodyLines=parts.slice();
+
+ if(split && split.ref){
+   // Categories 5, 7, 10, 11: reference is separated from the verse/text.
+   displayTitle = split.prefix || `అంశం ${it.number}`;
+   if(split.after) bodyLines.unshift(split.after);
+ }
+
+ let html=`<div class="detail-head"><div class="category-label">${esc(c.name)} • ${it.number}/${c.items.length}</div><div class="main-point"><b>🔴 MAIN POINT</b><div>${esc(displayTitle)}</div></div></div>`;
+
+ if(it.url){
+   html+=`<article class="item"><h2 class="item-title">${esc(displayTitle)}</h2><a class="youtube-btn" href="${esc(it.url)}" target="_blank" rel="noopener">▶ OPEN LINK</a></article>`;
+ }else{
+   html+=`<article class="item">`;
+   if(displayTitle) html+=`<h2 class="item-title">${esc(displayTitle)}</h2>`;
+   if(split && split.ref){
+      const url=bibleUrl(split.ref);
+      if(url) html+=renderBibleBox(split.ref,url);
+   }
+   html+=formatText(bodyLines.join('\n'))+`</article>`;
+ }
+
  html+=`<div class="navs"><button class="soft-btn" onclick="prevItem()" ${currentItem===0?'disabled':''}>← Previous</button><button class="soft-btn" onclick="nextItem()" ${currentItem===c.items.length-1?'disabled':''}>Next →</button></div>`;
  $('#detailContent').innerHTML=html;
  setView('detail');scrollTop();
+}
+
+function splitReferenceAndVerse(line){
+ const raw=String(line||'').trim();
+ const ref=findBibleRef(raw);
+ if(!ref) return null;
+ const idx=raw.indexOf(ref);
+ const before=raw.slice(0,idx).replace(/📖/g,'').trim();
+ const after=raw.slice(idx+ref.length).trim();
+ return {
+   ref,
+   prefix: before.replace(/[.)]\s*$/,'').trim(),
+   after: after.replace(/^[-–—:：]\s*/,'').trim()
+ };
+}
+
+function renderBibleBox(ref,url){
+ return `<a class="bible-ref" href="${esc(url)}" target="_blank" rel="noopener" title="Open in Sajeeva Vahini"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span><span class="bible-open">↗</span></a>`;
 }
 function mainTitle(t){return String(t).split('\n')[0].replace(/^\s*\d+\.\s*/,'').trim()}
 
@@ -55,22 +99,22 @@ function findBibleRef(line){
  return m ? m[1].replace(/\s+/g,' ').trim() : null;
 }
 function formatText(t){
- return t.split('\n').filter(Boolean).map(raw=>{
+ return String(t||'').split('\n').filter(Boolean).map(raw=>{
   const line=raw.trim();
-
-  // Only Categories 5, 7, 10 and 11: Bible reference on its own line -> clickable box.
   const specialCategories=[5,7,10,11];
   const categoryId=Number(DATA?.categories?.[currentCat]?.id);
-  const ref=findBibleRef(line);
+  const split=specialCategories.includes(categoryId) ? splitReferenceAndVerse(line) : null;
 
-  if(ref && specialCategories.includes(categoryId)){
-   const url=bibleUrl(ref);
-   if(url){
-    return `<a class="bible-ref" href="${esc(url)}" title="Open in Sajeeva Vahini"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span><span class="bible-open">›</span></a>`;
+  if(split && split.ref){
+   const url=bibleUrl(split.ref);
+   let out=url ? renderBibleBox(split.ref,url) : '';
+   if(split.after){
+     if(/^“|^"/.test(split.after)) out+=`<div class="verse">${esc(split.after)}</div>`;
+     else out+=`<p class="body-text">${esc(split.after)}</p>`;
    }
+   return out;
   }
 
-  // Preserve normal rendering everywhere else.
   if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;
   if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;
   return `<p class="body-text">${esc(line)}</p>`;
