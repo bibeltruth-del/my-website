@@ -40,7 +40,7 @@ function renderItem(){
  const c=DATA.categories[currentCat],it=c.items[currentItem];
  const parts=String(it.text||'').split('\n');
  const firstLine=parts.shift()||`${c.name} — ${it.number}`;
- const specialCategories=[5,7,10,11];
+ const specialCategories=[5,7,10,11,12,13];
  const categoryId=Number(c.id);
  const split=specialCategories.includes(categoryId) ? splitReferenceAndVerse(firstLine) : null;
 
@@ -101,13 +101,16 @@ function findBibleRef(line){
 function formatText(t){
  return String(t||'').split('\n').filter(Boolean).map(raw=>{
   const line=raw.trim();
-  const specialCategories=[5,7,10,11];
+  const specialCategories=[5,7,10,11,12,13];
   const categoryId=Number(DATA?.categories?.[currentCat]?.id);
   const split=specialCategories.includes(categoryId) ? splitReferenceAndVerse(line) : null;
 
   if(split && split.ref){
    const url=bibleUrl(split.ref);
-   let out=url ? renderBibleBox(split.ref,url) : '';
+   const preservePrefix = [12,13].includes(categoryId) && split.prefix;
+   let out = '';
+   if(preservePrefix) out += `<p class="body-text">${esc(split.prefix)}</p>`;
+   if(url) out += renderBibleBox(split.ref,url);
    if(split.after){
      if(/^“|^"/.test(split.after)) out+=`<div class="verse">${esc(split.after)}</div>`;
      else out+=`<p class="body-text">${esc(split.after)}</p>`;
