@@ -1,0 +1,7 @@
+FINAL MERGE REPORT
+
+Categories 1–13: retained from the supplied existing website ZIP.
+Category 14: added from supplied DOCX, 51 main points detected.
+Category 14 explicit REFERENCES boxes: 26; only these are clickable to Sajeeva Vahini.
+Category 15: supplied YouTube folder app copied into category15/ and linked from Category 15.
+Total categories: 15.

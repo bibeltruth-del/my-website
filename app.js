@@ -56,7 +56,8 @@ function renderItem(){
  let html=`<div class="detail-head"><div class="category-label">${esc(c.name)} • ${it.number}/${c.items.length}</div><div class="main-point"><b>🔴 MAIN POINT</b><div>${esc(displayTitle)}</div></div></div>`;
 
  if(it.url){
-   html+=`<article class="item"><h2 class="item-title">${esc(displayTitle)}</h2><a class="youtube-btn" href="${esc(it.url)}" target="_blank" rel="noopener">▶ OPEN LINK</a></article>`;
+   const isLocal=String(it.url).startsWith('category15/');
+   html+=`<article class="item"><h2 class="item-title">${esc(displayTitle)}</h2><a class="youtube-btn" href="${esc(it.url)}" ${isLocal?'':'target="_blank" rel="noopener"'}>▶ ${isLocal?'OPEN CATEGORY 15':'OPEN LINK'}</a></article>`;
  }else{
    html+=`<article class="item">`;
    if(displayTitle) html+=`<h2 class="item-title">${esc(displayTitle)}</h2>`;
@@ -103,47 +104,53 @@ function findBibleRef(line){
    Keep all original Telugu/English text unchanged.
    Render each detected reference as its own clickable Sajeeva Vahini box. */
 function formatText(t){
+ const categoryId=Number(DATA?.categories?.[currentCat]?.id);
  const lines=String(t||'').split('\n').filter(Boolean);
- const books=Object.keys(bookMap).sort((a,b)=>b.length-a.length).map(escapeRegExp).join('|');
 
- // Global matcher: Telugu + English book names already present in bookMap.
- // Supports: 📖 reference, numbered reference, ranges, and references embedded in text.
+ // CATEGORY 14 ONLY:
+ // Preserve all supplied text exactly. Only lines explicitly marked
+ // "📖 REFERENCES:" are rendered as clickable Sajeeva Vahini boxes.
+ if(categoryId===14){
+   return lines.map(raw=>{
+     const line=String(raw).trim();
+     if(/^╔|^╚/.test(line)) return '';
+     const refMatch=line.match(/^📖\s*REFERENCES:\s*(.+)$/i);
+     if(refMatch){
+       const ref=refMatch[1].trim();
+       const url=bibleUrl(ref);
+       return url ? renderBibleBox(ref,url) : `<div class="bible-ref"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span></div>`;
+     }
+     if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;
+     if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;
+     return `<p class="body-text">${esc(line)}</p>`;
+   }).join('');
+ }
+
+ // Existing behavior for Categories 1–13 remains unchanged.
+ const books=Object.keys(bookMap).sort((a,b)=>b.length-a.length).map(escapeRegExp).join('|');
  const refRe=new RegExp(`(?:📖\\s*)?((?:${books})\\s+\\d+\\s*:\\s*\\d+(?:\\s*[–-]\\s*\\d+)?)`,'ig');
 
  return lines.map(raw=>{
    const line=String(raw).trim();
    const matches=[...line.matchAll(refRe)];
-
-   // No Bible reference: preserve existing rendering exactly.
    if(!matches.length){
      if(/^↔️|^⚠️/.test(line))return `<div class="note">${esc(line)}</div>`;
      if(/^“|^"/.test(line))return `<div class="verse">${esc(line)}</div>`;
      return `<p class="body-text">${esc(line)}</p>`;
    }
 
-   // Separate EVERY reference from the surrounding verse/text.
-   // This is intentionally done for all Categories 1–13.
-   let out='';
-   let cursor=0;
-
+   let out='',cursor=0;
    matches.forEach(m=>{
-     const full=m[0];
-     const ref=m[1].replace(/\s+/g,' ').trim();
-     let before=line.slice(cursor,m.index);
-
-     // If the matcher consumed the 📖 symbol, it is not part of the text chunk.
-     before=before.replace(/\s+$/,'');
-
+     const full=m[0],ref=m[1].replace(/\s+/g,' ').trim();
+     let before=line.slice(cursor,m.index).replace(/\s+$/,'');
      if(before){
        if(/^↔️|^⚠️/.test(before)) out+=`<div class="note">${esc(before)}</div>`;
        else if(/^“|^"/.test(before)) out+=`<div class="verse">${esc(before)}</div>`;
        else out+=`<p class="body-text">${esc(before)}</p>`;
      }
-
      const url=bibleUrl(ref);
      if(url) out+=renderBibleBox(ref,url);
      else out+=`<div class="bible-ref"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span></div>`;
-
      cursor=m.index+full.length;
    });
 
@@ -153,7 +160,6 @@ function formatText(t){
      else if(/^“|^"/.test(after)) out+=`<div class="verse">${esc(after)}</div>`;
      else out+=`<p class="body-text">${esc(after)}</p>`;
    }
-
    return out;
  }).join('');
 }
