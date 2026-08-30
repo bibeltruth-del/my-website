@@ -1,13 +1,13 @@
-# Bible Truth — GitHub Pages Website
+# YouTube Channels Folder Web App
 
-This is a static, offline-friendly GitHub Pages website generated from the supplied Bible Truth content.
+Simple static web app containing one folder and 20 clickable YouTube channels.
 
-## Publish on GitHub
-1. Create a **Public** repository.
-2. Upload everything in this folder.
-3. Go to **Settings → Pages**.
-4. Source: **Deploy from a branch**
-5. Branch: **main**, folder: **/(root)**
-6. Save and open the GitHub Pages URL.
+## GitHub Pages
+1. Create a new GitHub repository.
+2. Upload all files from this project.
+3. Go to Settings → Pages.
+4. Select Deploy from a branch.
+5. Choose `main` branch and `/ (root)`.
+6. Save.
 
-No server or API key is required.
+Your web app will then be available through GitHub Pages.
