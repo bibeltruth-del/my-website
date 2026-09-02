@@ -60,3 +60,8 @@ a.bible-ref:active{transform:scale(.99)}
   object-fit:cover;
   object-position:center;
 }
+
+/* Category 15: direct YouTube channel list */
+.youtube-point{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;cursor:pointer;}
+.youtube-point .youtube-open{margin-left:auto;font-size:13px;font-weight:700;color:#b00000;white-space:nowrap;}
+@media(max-width:700px){.youtube-point{flex-wrap:wrap}.youtube-point .youtube-open{margin-left:40px;width:100%;}}

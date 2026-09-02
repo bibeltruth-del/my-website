@@ -1,0 +1,5 @@
+FINAL 1-16 BUILD
+Categories 1-13: original content.json preserved from supplied final build.
+Category 14: 6 items.
+Category 15: 20 direct YouTube channel links.
+Category 16: bible app, empty.
