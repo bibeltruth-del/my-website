@@ -95,7 +95,7 @@ function mainTitle(t){return String(t).split('\n')[0].replace(/^\s*\d+\.\s*/,'')
 /* Detect Bible references in all 13 categories and render each as its own clickable box. */
 function findBibleRef(line){
  const books=Object.keys(bookMap).sort((a,b)=>b.length-a.length).map(escapeRegExp).join('|');
- const re=new RegExp(`(?:📖\\s*)?(?:\\d+[.)]\\s*)?((?:${books})\\s+\\d+\\s*:\\s*\\d+(?:\\s*[–-]\\s*\\d+)?)`,'i');
+ const re=new RegExp(`(?:📖\\s*)?(?:\\d+[.)]\\s*)?((?:${books})\\s+\\d+\\s*:\\s*\\d+(?:\\s*[–-]\\s*\\d+(?:\\s*:\\s*\\d+)?)?)`,'i');
  const m=line.match(re);
  return m ? m[1].replace(/\s+/g,' ').trim() : null;
 }
@@ -128,7 +128,7 @@ function formatText(t){
 
  // Existing behavior for Categories 1–13 remains unchanged.
  const books=Object.keys(bookMap).sort((a,b)=>b.length-a.length).map(escapeRegExp).join('|');
- const refRe=new RegExp(`(?:📖\\s*)?((?:${books})\\s+\\d+\\s*:\\s*\\d+(?:\\s*[–-]\\s*\\d+)?)`,'ig');
+ const refRe=new RegExp(`(?:📖\\s*)?((?:${books})\\s+\\d+\\s*:\\s*\\d+(?:\\s*[–-]\\s*\\d+(?:\\s*:\\s*\\d+)?)?)`,'ig');
 
  return lines.map(raw=>{
    const line=String(raw).trim();
@@ -164,7 +164,7 @@ function formatText(t){
  }).join('');
 }
 function bibleUrl(ref){
- const clean=String(ref).replace(/\s*[–-]\s*\d+\s*$/,'').trim();
+ const clean=String(ref).replace(/\s*[–-]\s*\d+(?:\s*:\s*\d+)?\s*$/,'').trim();
  const m=clean.match(/^(.+?)\s+(\d+)\s*:\s*\d+/);
  if(!m)return null;
  let book=m[1].trim(),chapter=m[2];
