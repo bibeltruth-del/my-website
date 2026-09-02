@@ -4193,10 +4193,17 @@
     {
       "id": 16,
       "name": "bible app",
-      "count": 0,
+      "count": 1,
       "interpretation": false,
       "subtitle": "Bible App Download",
-      "items": []
+      "items": [
+        {
+          "number": 1,
+          "text": "Bible App — Download APK",
+          "url": "downloads/bible-app.apk",
+          "download": true
+        }
+      ]
     }
   ]
 }

@@ -34,6 +34,8 @@ function openCategory(i){
  $('#listSub').textContent=c.id===15 ? '20 YouTube Channels' : `${c.items.length} ప్రధాన అంశాలు`;
  if(Number(c.id)===15){
    $('#pointList').innerHTML=c.items.map((it,ii)=>`<a class="pointCard youtube-point" href="${esc(it.url)}" target="_blank" rel="noopener noreferrer"><span class="pointNo">${it.number||ii+1}.</span><span class="pointTitle">${esc(mainTitle(it.text))}</span><span class="youtube-open">▶ Open YouTube</span></a>`).join('');
+ }else if(Number(c.id)===16){
+   $('#pointList').innerHTML=c.items.map((it,ii)=>`<a class="pointCard youtube-point" href="${esc(it.url)}" download="bible-app.apk"><span class="pointNo">${it.number||ii+1}.</span><span class="pointTitle">${esc(mainTitle(it.text))}</span><span class="youtube-open">⬇ Download APK</span></a>`).join('');
  }else{
    $('#pointList').innerHTML=c.items.map((it,ii)=>`<article class="pointCard" onclick="openItem(${ii})"><span class="pointNo">${it.number||ii+1}.</span><span class="pointTitle">${esc(mainTitle(it.text))}</span></article>`).join('');
  }
@@ -79,7 +81,8 @@ function renderItem(){
 
  if(it.url){
    const isLocal=String(it.url).startsWith('category15/');
-   html+=`<article class="item"><h2 class="item-title">${esc(displayTitle)}</h2><a class="youtube-btn" href="${esc(it.url)}" ${isLocal?'':'target="_blank" rel="noopener"'}>▶ ${isLocal?'OPEN CATEGORY 15':'OPEN LINK'}</a></article>`;
+   const isApk=categoryId===16;
+   html+=`<article class="item"><h2 class="item-title">${esc(displayTitle)}</h2><a class="youtube-btn" href="${esc(it.url)}" ${isApk?'download="bible-app.apk"':'target="_blank" rel="noopener"'}>⬇ ${isApk?'DOWNLOAD APK':(isLocal?'OPEN CATEGORY 15':'OPEN LINK')}</a></article>`;
  }else{
    html+=`<article class="item">`;
    if(displayTitle) html+=`<h2 class="item-title">${esc(displayTitle)}</h2>`;
