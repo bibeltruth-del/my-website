@@ -46,14 +46,16 @@ function renderItem(){
  const firstLine=parts.shift()||`${c.name} — ${it.number}`;
  const specialCategories=[5,7,10,11,12,13];
  const categoryId=Number(c.id);
+ let firstCategory8Ref=null;
 
- // CATEGORY 8: the first line is the reference title, and the next duplicate
- // reference line is removed so the page shows one clean reference box
- // followed separately by the verse text.
+ // CATEGORY 8: every item is structured as
+ //   numbered reference -> duplicate 📖 reference -> verse/text.
+ // Remove only the duplicate marker line, keep the actual reference, and
+ // render the reference as a separate clickable Sajeeva Vahini box.
  if(categoryId===8){
-   const firstRef=findBibleRef(firstLine);
-   if(firstRef){
-     const dup=parts.findIndex(x=>findBibleRef(x)===firstRef);
+   firstCategory8Ref=findBibleRef(firstLine);
+   if(firstCategory8Ref){
+     const dup=parts.findIndex(x=>findBibleRef(x)===firstCategory8Ref);
      if(dup>=0) parts.splice(dup,1);
    }
  }
@@ -61,6 +63,11 @@ function renderItem(){
 
  let displayTitle=mainTitle(firstLine);
  let bodyLines=parts.slice();
+
+ if(categoryId===8 && firstCategory8Ref){
+   // Do not repeat the reference as the MAIN POINT/title.
+   displayTitle=`అంశం ${it.number}`;
+ }
 
  if(split && split.ref){
    // Categories 5, 7, 10, 11: reference is separated from the verse/text.
@@ -76,6 +83,10 @@ function renderItem(){
  }else{
    html+=`<article class="item">`;
    if(displayTitle) html+=`<h2 class="item-title">${esc(displayTitle)}</h2>`;
+   if(categoryId===8 && firstCategory8Ref){
+      const url=bibleUrl(firstCategory8Ref);
+      if(url) html+=renderBibleBox(firstCategory8Ref,url);
+   }
    if(split && split.ref){
       const url=bibleUrl(split.ref);
       if(url) html+=renderBibleBox(split.ref,url);
@@ -146,13 +157,18 @@ function formatText(t){
    return lines.map(raw=>{
      const line=String(raw).trim();
      const ref=findBibleRef(line);
-     if(ref && line.replace(/^📖\s*/,'').trim()===ref){
+     // A line that consists of a Bible reference (with optional leading number/📖)
+     // becomes ONLY the clickable reference box.
+     if(ref && line.replace(/^\s*(?:📖\s*)?(?:\d+[.)]\s*)?/,'').trim()===ref){
        const url=bibleUrl(ref);
-       return url ? renderBibleBox(ref,url) : `<div class=\"bible-ref\"><span class=\"bible-icon\">📖</span><span class=\"bible-ref-text\">${esc(ref)}</span></div>`;
+       return url ? renderBibleBox(ref,url) : `<div class="bible-ref"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span></div>`;
      }
-     if(/^↔️|^⚠️/.test(line)) return `<div class=\"note\">${esc(line)}</div>`;
-     if(/^“|^\"/.test(line)) return `<div class=\"verse\">${esc(line)}</div>`;
-     return `<p class=\"body-text\">${esc(line)}</p>`;
+     if(/^↔️|^⚠️/.test(line)) return `<div class="note">${esc(line)}</div>`;
+     // The supplied Category 8 verse lines often begin with 📖 but the text
+     // itself is the verse/meaning. Keep that content separate from the box.
+     const verseLine=line.replace(/^📖\s*/,'').trim();
+     if(/^“|^\"/.test(verseLine) || line.startsWith('📖')) return `<div class="verse">${esc(verseLine)}</div>`;
+     return `<p class="body-text">${esc(line)}</p>`;
    }).join('');
  }
 
