@@ -46,6 +46,17 @@ function renderItem(){
  const firstLine=parts.shift()||`${c.name} — ${it.number}`;
  const specialCategories=[5,7,10,11,12,13];
  const categoryId=Number(c.id);
+
+ // CATEGORY 8: the first line is the reference title, and the next duplicate
+ // reference line is removed so the page shows one clean reference box
+ // followed separately by the verse text.
+ if(categoryId===8){
+   const firstRef=findBibleRef(firstLine);
+   if(firstRef){
+     const dup=parts.findIndex(x=>findBibleRef(x)===firstRef);
+     if(dup>=0) parts.splice(dup,1);
+   }
+ }
  const split=specialCategories.includes(categoryId) ? splitReferenceAndVerse(firstLine) : null;
 
  let displayTitle=mainTitle(firstLine);
@@ -130,30 +141,18 @@ function formatText(t){
    }).join('');
  }
 
- // CATEGORY 8: render every Bible reference as a clickable Sajeeva Vahini box.
- // The reference text itself stays unchanged; only the reference gets the link.
+ // CATEGORY 8: references get their own clickable Sajeeva Vahini box; verses stay separate.
  if(categoryId===8){
    return lines.map(raw=>{
      const line=String(raw).trim();
      const ref=findBibleRef(line);
-     if(!ref){
-       if(/^↔️|^⚠️/.test(line)) return `<div class="note">${esc(line)}</div>`;
-       if(/^“|^"/.test(line)) return `<div class="verse">${esc(line)}</div>`;
-       return `<p class="body-text">${esc(line)}</p>`;
+     if(ref && line.replace(/^📖\s*/,'').trim()===ref){
+       const url=bibleUrl(ref);
+       return url ? renderBibleBox(ref,url) : `<div class=\"bible-ref\"><span class=\"bible-icon\">📖</span><span class=\"bible-ref-text\">${esc(ref)}</span></div>`;
      }
-     const idx=line.indexOf(ref);
-     const before=line.slice(0,idx).trim();
-     const after=line.slice(idx+ref.length).trim();
-     let out='';
-     if(before && before!==`📖`){
-       out += `<p class="body-text">${esc(before.replace(/^📖\s*/,'').trim())}</p>`;
-     }
-     const url=bibleUrl(ref);
-     out += url
-       ? renderBibleBox(ref,url)
-       : `<div class="bible-ref"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span></div>`;
-     if(after) out += `<p class="body-text">${esc(after)}</p>`;
-     return out;
+     if(/^↔️|^⚠️/.test(line)) return `<div class=\"note\">${esc(line)}</div>`;
+     if(/^“|^\"/.test(line)) return `<div class=\"verse\">${esc(line)}</div>`;
+     return `<p class=\"body-text\">${esc(line)}</p>`;
    }).join('');
  }
 
