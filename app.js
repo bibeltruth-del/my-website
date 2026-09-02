@@ -29,6 +29,11 @@ function renderCategories(){
 function openCategory(i){
  currentCat=i;
  const c=DATA.categories[i];
+ // Category 15 opens its 20-channel YouTube list directly.
+ if(Number(c.id)===15 && c.items?.[0]?.url){
+   window.location.href=c.items[0].url;
+   return;
+ }
  setView('list');
  $('#listTitle').textContent=c.name;
  $('#listSub').textContent=`${c.items.length} ప్రధాన అంశాలు`;
