@@ -130,6 +130,33 @@ function formatText(t){
    }).join('');
  }
 
+ // CATEGORY 8: render every Bible reference as a clickable Sajeeva Vahini box.
+ // The reference text itself stays unchanged; only the reference gets the link.
+ if(categoryId===8){
+   return lines.map(raw=>{
+     const line=String(raw).trim();
+     const ref=findBibleRef(line);
+     if(!ref){
+       if(/^↔️|^⚠️/.test(line)) return `<div class="note">${esc(line)}</div>`;
+       if(/^“|^"/.test(line)) return `<div class="verse">${esc(line)}</div>`;
+       return `<p class="body-text">${esc(line)}</p>`;
+     }
+     const idx=line.indexOf(ref);
+     const before=line.slice(0,idx).trim();
+     const after=line.slice(idx+ref.length).trim();
+     let out='';
+     if(before && before!==`📖`){
+       out += `<p class="body-text">${esc(before.replace(/^📖\s*/,'').trim())}</p>`;
+     }
+     const url=bibleUrl(ref);
+     out += url
+       ? renderBibleBox(ref,url)
+       : `<div class="bible-ref"><span class="bible-icon">📖</span><span class="bible-ref-text">${esc(ref)}</span></div>`;
+     if(after) out += `<p class="body-text">${esc(after)}</p>`;
+     return out;
+   }).join('');
+ }
+
  // Existing behavior for Categories 1–13 remains unchanged.
  const books=Object.keys(bookMap).sort((a,b)=>b.length-a.length).map(escapeRegExp).join('|');
  const refRe=new RegExp(`(?:📖\\s*)?((?:${books})\\s+\\d+\\s*:\\s*\\d+(?:\\s*[–-]\\s*\\d+(?:\\s*:\\s*\\d+)?)?)`,'ig');
